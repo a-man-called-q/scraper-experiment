@@ -17,6 +17,8 @@ newspaper3k = "^0.2.8"
 python-dotenv = "^1.0.1"
 pydantic = "^2.10.4"
 python-daemon = "^3.1.2"
+scrapy = "^2.11.0"
+scrapydo = "^0.2.1"
 
 [project.scripts]
 server = "scraper.main:server"
