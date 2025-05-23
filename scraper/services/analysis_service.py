@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 from google import generativeai
@@ -10,10 +11,11 @@ from scraper.configs.constants import (
     RC_ANALYSIS_PROMPT,
     SENTIMENT_ANALYSIS_PROMPT,
 )
-from scraper.configs.models import ResponseContent
+from scraper.schemas import ResponseContent
 from scraper.libs.logger import logger
 from scraper.libs.utils import get_current_data
 
+# Initialize the generative AI model
 generativeai.configure(api_key=GEMINI_API_KEY)
 model = generativeai.GenerativeModel(AI_MODEL)
 
@@ -22,7 +24,7 @@ async def _generate_analysis(
     url: str, analysis_type: str, prompt: str | None, analysis_field: str, has_analysis_field: str
 ):
     logger.info(f"Preparing to generate {analysis_type} for {url}")
-    response = model.generate_content(f"{prompt} {url}")
+    response = await asyncio.to_thread(model.generate_content, f"{prompt} {url}")
     logger.info(f"{analysis_type} Generated")
     current_data = await get_current_data(url)
     if current_data:
@@ -64,7 +66,7 @@ async def prominent_analysis(url: str):
 async def extract_content_site(url: str):
     logger.info(f"Preparing to extract content for {url}")
     logger.info(f"using prompt: {EXTRACTING_PROMPT}")
-    response = model.generate_content(f"{EXTRACTING_PROMPT} {url}")
+    response = await asyncio.to_thread(model.generate_content, f"{EXTRACTING_PROMPT} {url}")
     logger.info("Content Extracted.")
     logger.info(response.text.strip("```json").strip("```"))
     return ResponseContent(**json.loads(response.text.strip("```json").strip("```")))

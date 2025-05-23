@@ -1,6 +1,3 @@
-from dataclasses import dataclass
-from enum import Enum
-
 from tortoise import fields
 from tortoise.models import Model
 
@@ -22,20 +19,3 @@ class Site(Model):
     prominent_analysis = fields.TextField(null=True)
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
-
-
-class Status(Enum):
-    SUCCESS = "success"
-    ERROR = "error"
-
-
-@dataclass
-class ResponseJSON:
-    status: Status
-    message: str
-
-
-@dataclass
-class ResponseContent:
-    content: str
-    title: str
