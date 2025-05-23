@@ -2,7 +2,14 @@
 
 ## Gettin Started
 
-This repo is made using [`poetry`](https://python-poetry.org) so install poetry first. After that, all you have to do is run `poetry install` and then `poetry run server` to activate the endpoints assuming that you already set the necessary `.env`.
+This project uses UV for dependency management. Install UV first (see https://github.com/astral-sh/uv for instructions). After that, install the dependencies by running:
+```bash
+uv pip install .[dev]
+```
+To activate the server endpoints (assuming you have set the necessary `.env` file), run:
+```bash
+uv run server
+```
 
 ### ENV File Content
 In order to run the server, you have to add the necessary `.env` at the **project root**
